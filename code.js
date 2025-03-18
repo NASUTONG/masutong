@@ -1,5 +1,5 @@
 export const configurazione = {
-  testo: "Ma Su Tong",
+  testo: "MST",
   dimensione: 0.8,
   interlinea: 0.7,
   allineamento: "centro",
@@ -36,32 +36,28 @@ export function disegnaPunto({
   beta = 0,
   gamma = 0,
 }) {
+  angleMode(RADIANS);
   push();
   translate(x, y);
+  rotate(frameCount / 10);
+  fill("white");
+  drawStar(0, 0, 10);
+  pop();
+}
 
-  noFill();
-  stroke(0);
-
-  // Use orientation data to influence color
-  // Map alpha (z-rotation) to hue (0-360)
-  const hue = map(alpha, 0, 360, 0, 360);
-
-  // Map beta (front-to-back tilt) to saturation (50-100)
-  const saturation = map(abs(beta), 0, 90, 50, 100);
-
-  // Map gamma (left-to-right tilt) to brightness (50-100)
-  const brightness = map(abs(gamma), 0, 90, 50, 100);
-
-  colorMode(HSB, 360, 100, 100);
-  fill(hue, saturation, brightness);
-  noStroke();
-
-  rectMode(CENTER);
-  rotate(frameCount + indice);
-
-  // Add slight variation based on device tilt
-  scale(1 + volume * 10 + (abs(gamma) / 90) * 0.5);
-  rect(0, 0, unita / 2);
+// 绘制五角星函数
+function drawStar(x, y, radius) {
+  push();
+  translate(x, y);
+  beginShape();
+  for (let i = 0; i < 10; i++) {
+    let angle = (PI / 5) * i;
+    let r = i % 2 == 0 ? radius : radius / 2;
+    let sx = cos(angle) * r;
+    let sy = sin(angle) * r;
+    vertex(sx, sy);
+  }
+  endShape(CLOSE);
   pop();
 }
 
@@ -81,7 +77,7 @@ export function impostazioni() {
 export function sotto(disegnaTesto) {
   background(255);
 
-  fill("deeppink");
+  fill("SlateBlue");
   disegnaTesto();
 }
 
